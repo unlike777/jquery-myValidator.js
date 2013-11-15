@@ -45,10 +45,10 @@ additional fields
 
 <pre>
 	<code>
-		$('form').myValidator({
-			onSubmit: function() {return true;},
-			afterSubmit: function() {return true;}
-		});
+$('form').myValidator({
+	onSubmit: function() {return true;},
+	afterSubmit: function() {return true;}
+});
 	</code>
 </pre>
 
@@ -68,24 +68,24 @@ additional fields
 	
 <pre>
 	<code>
-		$('form').myValidator({
-			onSubmit: function($this, clean) {
-			
-				var options = {
-					url: $this.attr('action'),
-					dataType: 'json',
-					type: "POST",
-					success: function(data) {
-						alert(data.data);
-						clean();
-					},
-					error: function() {
-						alert('Сервер временно не доступен, попробуйте позже!');
-					}
-				};
-				
-				$this.ajaxSubmit(options);
+$('form').myValidator({
+	onSubmit: function($this, clean) {
+	
+		var options = {
+			url: $this.attr('action'),
+			dataType: 'json',
+			type: "POST",
+			success: function(data) {
+				alert(data.data);
+				clean();
+			},
+			error: function() {
+				alert('Сервер временно не доступен, попробуйте позже!');
 			}
-		});
+		};
+		
+		$this.ajaxSubmit(options);
+	}
+});
 	</code>
 </pre>
