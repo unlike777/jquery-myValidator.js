@@ -34,32 +34,32 @@ additional fields
 <h3>Simple</h3>
 
 
-<code><form>
+<pre><form>
 	<div class="vr-notice-email" style="color: red;"></div>
 	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
 	<submit>Отправить</submit>
 </form>
-</code>
+</pre>
 
 
-<code>$('form').myValidator({
+<pre>$('form').myValidator({
 	onSubmit: function() {return true;},
 	afterSubmit: function() {return true;}
 });
-</code>
+</pre>
 
 
 <h3>Ajax form</h3>
 
 
-<code><form>
+<pre><form>
 	<div class="vr-notice-email" style="color: red;"></div>
 	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
 	<submit>Отправить</submit>
-</form></code>
+</form></pre>
 
 	
-<code>$('form').myValidator({
+<pre>$('form').myValidator({
 	onSubmit: function($this, clean) {
 	
 		var options = {
@@ -77,4 +77,4 @@ additional fields
 		
 		$this.ajaxSubmit(options);
 	}
-});</code>
+});</pre>
