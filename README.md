@@ -43,7 +43,7 @@ additional fields
 
 
 
-```
+```js
 $('form').myValidator({
 	onSubmit: function() {return true;},
 	afterSubmit: function() {return true;}
@@ -63,7 +63,7 @@ $('form').myValidator({
 ```
 
 	
-```
+```js
 $('form').myValidator({
 	onSubmit: function($this, clean) {
 	
