@@ -35,7 +35,8 @@ additional fields
 ```html
 <form>
 	<div class="vr-notice-email" style="color: red;"></div>
-	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
+	<input type="text" name="email" 
+		vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
 	<submit>Отправить</submit>
 </form>
 ```
@@ -52,10 +53,11 @@ $('form').myValidator({
 
 ###Ajax form
 
-```
+```html
 <form>
 	<div class="vr-notice-email" style="color: red;"></div>
-	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
+	<input type="text" name="email" 
+		vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
 	<submit>Отправить</submit>
 </form>
 ```
