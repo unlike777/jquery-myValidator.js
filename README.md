@@ -33,50 +33,59 @@ additional fields
 
 <h3>Simple</h3>
 
-<pre>
-<form>
-	<div class="vr-notice-email" style="color: red;"></div>
-	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
-	<submit>Отправить</submit>
-</form>
+<div class="highlight highlight-html">
+	<pre>
+		<form>
+			<div class="vr-notice-email" style="color: red;"></div>
+			<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
+			<submit>Отправить</submit>
+		</form>
+	</pre>
+</div>
 
-<code>
-$('form').myValidator({
-	onSubmit: function() {return true;},
-	afterSubmit: function() {return true;}
-});
-</code>
+<pre>
+	<code>
+		$('form').myValidator({
+			onSubmit: function() {return true;},
+			afterSubmit: function() {return true;}
+		});
+	</code>
 </pre>
 
 
 <h3>Ajax form</h3>
 
-<pre>
-<form>
-	<div class="vr-notice-email" style="color: red;"></div>
-	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
-	<submit>Отправить</submit>
-</form>
 
-<code>
-$('form').myValidator({
-	onSubmit: function($this, clean) {
+<div class="highlight highlight-html">
+	<pre>
+		<form>
+			<div class="vr-notice-email" style="color: red;"></div>
+			<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
+			<submit>Отправить</submit>
+		</form>
+	</pre>
+</div>
 	
-		var options = {
-			url: $this.attr('action'),
-			dataType: 'json',
-			type: "POST",
-			success: function(data) {
-				alert(data.data);
-				clean();
-			},
-			error: function() {
-				alert('Сервер временно не доступен, попробуйте позже!');
+<pre>
+	<code>
+		$('form').myValidator({
+			onSubmit: function($this, clean) {
+			
+				var options = {
+					url: $this.attr('action'),
+					dataType: 'json',
+					type: "POST",
+					success: function(data) {
+						alert(data.data);
+						clean();
+					},
+					error: function() {
+						alert('Сервер временно не доступен, попробуйте позже!');
+					}
+				};
+				
+				$this.ajaxSubmit(options);
 			}
-		};
-		
-		$this.ajaxSubmit(options);
-	}
-});
-</code>
+		});
+	</code>
 </pre>
