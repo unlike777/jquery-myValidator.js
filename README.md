@@ -43,14 +43,12 @@ additional fields
 	</pre>
 </div>
 
-<pre>
-	<code>
+<pre><code>
 $('form').myValidator({
 	onSubmit: function() {return true;},
 	afterSubmit: function() {return true;}
 });
-	</code>
-</pre>
+</code></pre>
 
 
 <h3>Ajax form</h3>
@@ -66,8 +64,7 @@ $('form').myValidator({
 	</pre>
 </div>
 	
-<pre>
-	<code>
+<pre><code>
 $('form').myValidator({
 	onSubmit: function($this, clean) {
 	
@@ -86,6 +83,4 @@ $('form').myValidator({
 		
 		$this.ajaxSubmit(options);
 	}
-});
-	</code>
-</pre>
+});</code></pre>
