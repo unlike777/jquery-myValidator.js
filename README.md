@@ -1,5 +1,4 @@
-jquery-myValidator.js
-=====================
+#jquery-myValidator.js
 
 Another one js validator
  
@@ -29,37 +28,34 @@ additional fields
 
   
   
-Examples
---------
+##Examples
 
-Simple
-------
+###Simple
 
-`<form>
+```<form>
 	<div class="vr-notice-email" style="color: red;"></div>
 	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
 	<submit>Отправить</submit>
-</form>`
+</form>```
 
 
 
-`$('form').myValidator({
+```$('form').myValidator({
 	onSubmit: function() {return true;},
 	afterSubmit: function() {return true;}
-});`
+});```
 
 
-Ajax form
----------
+###Ajax form
 
-`<form>
+```<form>
 	<div class="vr-notice-email" style="color: red;"></div>
 	<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
 	<submit>Отправить</submit>
-</form>`
+</form>```
 
 	
-`$('form').myValidator({
+```$('form').myValidator({
 	onSubmit: function($this, clean) {
 	
 		var options = {
@@ -77,4 +73,4 @@ Ajax form
 		
 		$this.ajaxSubmit(options);
 	}
-});`
+});```
