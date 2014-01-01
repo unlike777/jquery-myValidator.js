@@ -44,10 +44,7 @@ additional fields
 
 
 ```js
-$('form').myValidator({
-	onSubmit: function() {return true;},
-	afterSubmit: function() {return true;}
-});
+$('form').myValidator();
 ```
 
 
@@ -76,11 +73,14 @@ $('form').myValidator({
 				clean();
 			},
 			error: function() {
-				alert('Сервер временно не доступен, попробуйте позже!');
+				alert('Сервер временно не доступен, попробуйте позже');
 			}
 		};
 		
 		$this.ajaxSubmit(options);
+	},
+	afterSubmit: function($this) {
+		return false; //отменяем стандартную отправку
 	}
 });
 ```

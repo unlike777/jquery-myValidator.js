@@ -38,8 +38,7 @@
 			},
 			//$this - указывает на форму, clean - функция очистки формы
 			onSubmit: function($this, clean) {
-				alert('Форма отправилась'); 
-				clean();
+				//clean(); //если форма отправляется ajax'ом можно ее очистить
 			},
 			//$this - указывает на форму
 			beforeSubmit: function($this) {
@@ -48,8 +47,6 @@
 			//$this - указывает на форму
 			afterSubmit: function($this) {
 				
-				//если форма отправляется ajax'ом
-				return false;
 			},
 			reEmail: /^([a-z0-9\.\-\_])+\@(([a-zA-Z0-9\-\_])+\.)+([a-zA-Z0-9]{2,4})+$/i,
 			reUrl: /(([a-z0-9\-\.]+)?[a-z0-9\-]+(!?\.[a-z]{2,4}))/i
@@ -70,34 +67,34 @@
 			
 			if ($inp.hasClass('vr-required')) {
 				if (val == '') {
-					return parse({name: name}, 'Поле "{name}" обязательно для заполнения.');
+					return parse({name: name}, 'Поле "{name}" обязательно для заполнения');
 				}
 			}
 
 			var min_len = $inp.attr('vr-min-length');
 			if (min_len > 0) {
 				if (val.length < min_len) {
-					return parse({name: name, min_len: min_len}, 'Количество символов для поля "{name}" не должно быть меньше {min_len}.');
+					return parse({name: name, min_len: min_len}, 'Количество символов для поля "{name}" не должно быть меньше {min_len}');
 				}
 			}
 
 			var max_len = $inp.attr('vr-max-length');
 			if (min_len > 0) {
 				if (val.length < max_len) {
-					return parse({name: name, max_len: max_len}, 'Количество символов для поля "{name}" не должно быть больше {max_len}.');
+					return parse({name: name, max_len: max_len}, 'Количество символов для поля "{name}" не должно быть больше {max_len}');
 				}
 			}
 
 			
 			if ($inp.hasClass('vr-email')) {
 				if (!settings.reEmail.test(val)) {
-					return parse({name: name}, 'Для поля "{name}" эл. почта указана в неправильном формате.');
+					return parse({name: name}, 'Для поля "{name}" эл. почта указана в неправильном формате');
 				}
 			}
 
 			if ($inp.hasClass('vr-url')) {
 				if (!settings.reUrl.test(val)) {
-					return parse({name: name}, 'Для поля "{name}" ссылка указана в неправильном формате.');
+					return parse({name: name}, 'Для поля "{name}" ссылка указана в неправильном формате');
 				}
 			}
 			
