@@ -2,9 +2,9 @@
 
 Another one js validator
  
-jQuery Validate Plugin v0.2
+jQuery Validate Plugin v0.3
 
-Copyright 2013 UNLIKE | MAHOGANY GROUP
+Copyright 2013 UNLIKE
 Released under the MIT license
 
 css classes for validation
