@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<title>myValidator demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content=""/>
+	<meta name="keywords" content=""/>
+
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="../jquery.vr.js"></script>
+</head>
+<body>
+
+<style>
+	form{margin: 100px;}
+	.vr-error{border: 1px solid red;}
+	.vr-touched{border: 1px solid #D8E450;}
+	.vr-correct{border: 1px solid #00D300;}
+	.item{margin-bottom: 15px;}
+</style>
+
+<script>
+$(document).ready(function() {
+	$('form').myValidator({
+		onSubmit: function($this, clean) {
+			alert('Работает!!!');
+		},
+		afterSubmit: function($this) {
+			return false; //отменяем стандартную отправку
+		}
+	});
+});
+</script>
+
+<form method="POST">
+	<div class="item">
+		<label>
+			Эл. почта
+			<div class="vr-notice-email" style="color: red;"></div>
+			<input type="text" name="email" vr-name="Эл. почта" class="vr-required vr-email" vr-min-length="5">
+		</label>
+	</div>
+	
+	<div class="item">
+		<label>
+			Новый пароль
+			<div class="vr-notice-password1" style="color: red;"></div>
+			<input type="text" name="password1" vr-name="Новый пароль" vr-min-length="6">
+		</label>
+	</div>
+	
+	<div class="item">
+		<label>
+			Подтверждение пароля
+			<div class="vr-notice-password2" style="color: red;"></div>
+			<input type="text" name="password2" vr-name="Подтверждение пароля" vr-min-length="6" vr-accordance="password1">
+		</label>
+	</div>
+	
+	<div class="item">
+		<button>Отправить</button>
+	</div>
+</form>
+
+</body>
+</html>
