@@ -1,4 +1,5 @@
-/*!
+/**
+ * https://github.com/unlike777/jquery-myValidator.js
  * jQuery Validate Plugin v0.3
  *
  * Copyright 2013 UNLIKE
