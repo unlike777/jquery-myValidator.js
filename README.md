@@ -2,16 +2,16 @@
 
 Another one js validator
  
-jQuery Validate Plugin v0.3
+jQuery Validate Plugin v0.4
 
-Copyright 2013 UNLIKE
+Copyright 2014 UNLIKE
 Released under the MIT license
 
 css classes for validation
   * .vr-required - поле обязательно для заполнения
   * .vr-email - проверка на эл. почту
   * .vr-url - проверка на ссылку
-  * .vr-not-clean - не очещать поле после отправки формы
+  * .vr-not-clean - не очищать поле после отправки формы
 
 attributes for validation
   * vr-name - имя поля, необходимо для уведомлений

@@ -1,8 +1,8 @@
 /**
  * https://github.com/unlike777/jquery-myValidator.js
- * jQuery Validate Plugin v0.3
+ * jQuery Validate Plugin v0.4
  *
- * Copyright 2013 UNLIKE
+ * Copyright 2014 UNLIKE
  * Released under the MIT license
  * 
  * css classes for validation
@@ -31,8 +31,8 @@
 
 		//дефолтные настройки
 		var settings = $.extend( {
-			//скорость проверки формы
-			speed: 200,
+			//проверка на множественное срабатывание валидации
+			check: true,
 			//уведомление об ошибки в поле, $this - указывает на поле
 			notice: function($this, text) {
 				$this.focus(); 
@@ -121,7 +121,7 @@
 		}
 		
 		//финальная проверка, в момент отправления формы
-		function final($form) {
+		function final_check($form) {
 			var $check = true;
 
 			$form.find('input, textarea').not('input[type="submit"]').each(function() {
@@ -140,6 +140,7 @@
 
 		//Провеяем форму в реальном времени
 		function validate($form) {
+			
 			$form.find('input, textarea').not('input[type="submit"]').each(function() {
 				var $inp = $(this),
 					$inp_name = $inp.attr('name'),
@@ -147,29 +148,35 @@
 				
 				//если поле уже было тронуто
 				if ($inp.hasClass('vr-touched')) {
-					var old_val = $inp.attr('vr-data-old'),
-						cur_val = $inp.val();
 					
-					//если поле изменилось
-					if (old_val != cur_val) {
-						var error_text = check($inp);
-						
-						$inp.attr('vr-data-old', cur_val);
-						
-						if (error_text !== true) {
-							$inp.removeClass('vr-correct').addClass('vr-error');
-							if ($inp_name != '') {
-								$form.find($notice_class).html(error_text);
-							}
-						} else {
-							$inp.removeClass('vr-error').addClass('vr-correct');
-							if ($inp_name != '') {
-								$form.find($notice_class).html('');
-							}
+					var error_text = check($inp);
+					
+					if (error_text !== true) {
+						$inp.removeClass('vr-correct').addClass('vr-error');
+						if ($inp_name != '') {
+							$form.find($notice_class).html(error_text);
+						}
+					} else {
+						$inp.removeClass('vr-error').addClass('vr-correct');
+						if ($inp_name != '') {
+							$form.find($notice_class).html('');
 						}
 					}
+					
 				}
 			});
+			
+		}
+		
+		//запаздалая валидация
+		function belatedValidate($form) {
+			if (settings.check) {
+				settings.check = false;
+				setTimeout(function() {
+					validate($form);
+					settings.check = true;
+				}, 1);
+			}
 		}
 		
 		function clean($form) {
@@ -195,6 +202,7 @@
 			//нужно отделить уже измененные поля от еще не тронутых
 			$form.find('input, textarea').not('input[type="submit"]').on('blur', function() {
 				$(this).addClass('vr-touched');
+				belatedValidate($form);
 			});
 
 			//также смотрим на уже заполненные поля
@@ -206,18 +214,23 @@
 			});
 			/****************************************************/
 			
-			$form.on('submit', function() {
+			$form.on('submit', function(e) {
 
-				if (settings.beforeSubmit($form) === false ||
-					final($form) === false ||
-					settings.onSubmit($form, function() {clean($form);}) === false ||
-					settings.afterSubmit($form) === false)
-						return false;
+				var check = settings.beforeSubmit($form) === false ||
+							final_check($form) === false ||
+							settings.onSubmit($form, function() {clean($form);}) === false ||
+							settings.afterSubmit($form) === false;
+				
+				if (check) {
+					e.preventDefault();
+				}
 				
 			});
 			
-			setInterval(function() {validate($form);}, settings.speed);
-		
+			$form.on('mouseup keyup input', function() {
+				belatedValidate($form);
+			});
+			
 		});
 
 	};
