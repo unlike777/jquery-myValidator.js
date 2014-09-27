@@ -24,6 +24,7 @@ $(document).ready(function() {
 	$('form').myValidator({
 		onSubmit: function($this, clean) {
 			alert('Работает!!!');
+//			clean();
 		},
 		afterSubmit: function($this) {
 			return false; //отменяем стандартную отправку

@@ -9,7 +9,8 @@
  * .vr-required - поле обязательно для заполнения
  * .vr-email - проверка на эл. почту
  * .vr-url - проверка на ссылку
- * .vr-not-clean - не очещать поле после отправки формы
+ * .vr-num - проверка на число
+ * .vr-not-clean - не очищать поле после отправки формы
  * 
  * attributes for validation
  * vr-name - имя поля, необходимо для уведомлений
@@ -28,11 +29,13 @@
 
 (function( $ ) {
 	$.fn.myValidator = function(options) {
-
+		
+		var $form, 			// форма
+			$inputs, 		// поля для проверки 
+			_check = true; 	//проверка на множественное срабатывание валидации
+		
 		//дефолтные настройки
 		var settings = $.extend( {
-			//проверка на множественное срабатывание валидации
-			check: true,
 			//уведомление об ошибки в поле, $this - указывает на поле
 			notice: function($this, text) {
 				$this.focus(); 
@@ -106,8 +109,16 @@
 				}
 			}
 
+			if ($inp.hasClass('vr-num')) {
+				if ( val != 0 ) {
+					if ( !(val / val) ) {
+						return parse({name: name}, 'Поле "{name}" не является числом');
+					}
+				}
+			}
+
 			var accordance = $inp.attr('vr-accordance'),
-				$accord = settings.form.find('input[name="'+accordance+'"]:first');
+				$accord = $form.find('input[name="'+accordance+'"]:first');
 			if ($accord.length > 0) {
 				var acc_val = $.trim($accord.val()),
 					acc_name = getInpName($accord);
@@ -121,27 +132,29 @@
 		}
 		
 		//финальная проверка, в момент отправления формы
-		function final_check($form) {
-			var $check = true;
+		function final_check() {
+			var ret = true;
 
-			$form.find('input, textarea').not('input[type="submit"]').each(function() {
+			$inputs.each(function() {
 				var $inp = $(this),
 					error_text = check($inp);
 				
 				if (error_text !== true) {
-					$check = false;
+					ret = false;
 					settings.notice($inp, error_text);
 					return false;
 				}
+				
+				return true;
 			});
 			
-			return $check;
+			return ret;
 		}
 
-		//Провеяем форму в реальном времени
-		function validate($form) {
-			
-			$form.find('input, textarea').not('input[type="submit"]').each(function() {
+		//Проверяем форму в реальном времени
+		function validate() {
+
+			$inputs.each(function() {
 				var $inp = $(this),
 					$inp_name = $inp.attr('name'),
 					$notice_class = '.vr-notice-'+$inp_name;
@@ -169,44 +182,41 @@
 		}
 		
 		//запаздалая валидация
-		function belatedValidate($form) {
-			if (settings.check) {
-				settings.check = false;
+		function belatedValidate() {
+			if (_check) {
+				_check = false;
 				setTimeout(function() {
-					validate($form);
-					settings.check = true;
+					validate();
+					_check = true;
 				}, 1);
 			}
 		}
 		
-		function clean($form) {
-			var $inps = $form.find('input, textarea').not('.vr-not-clean').not('input[type="submit"]');
-			$inps.removeClass('vr-touched').removeClass('vr-correct').removeClass('vr-error');
-			$inps.each(function() {
-				var $this = $(this);
-				if ($this.attr('vr-data-old') !== undefined) {
-					$this.attr('vr-data-old', '');
-				}
-			});
-			$inps.val('');
+		function clean() {
+			$inputs.not('.vr-not-clean')
+				.removeClass('vr-touched')
+				.removeClass('vr-correct')
+				.removeClass('vr-error')
+				.val('');
 		}
 		
 		return this.each(function() {
-			
-			var $form = $(this);
-			
+
 			//запоминаем текущую форму 1 раз, чтобы каждый раз не искать в dom дереве
-			settings.form = $form;
+			$form = $(this);
+			
+			//запоминаем поля участвующие в проверке
+			$inputs = $form.find('input, textarea').not('input[type="submit"]');
 			
 			/****************************************************/
 			//нужно отделить уже измененные поля от еще не тронутых
-			$form.find('input, textarea').not('input[type="submit"]').on('blur', function() {
+			$inputs.on('blur', function() {
 				$(this).addClass('vr-touched');
-				belatedValidate($form);
+				belatedValidate();
 			});
 
 			//также смотрим на уже заполненные поля
-			$form.find('input, textarea').not('input[type="submit"]').each(function() {
+			$inputs.each(function() {
 				var $inp = $(this);
 				if ($.trim($inp.val()) != '') {
 					$inp.addClass('vr-touched');
@@ -217,8 +227,8 @@
 			$form.on('submit', function(e) {
 
 				var check = settings.beforeSubmit($form) === false ||
-							final_check($form) === false ||
-							settings.onSubmit($form, function() {clean($form);}) === false ||
+							final_check() === false ||
+							settings.onSubmit($form, function() {clean();}) === false ||
 							settings.afterSubmit($form) === false;
 				
 				if (check) {
@@ -228,7 +238,7 @@
 			});
 			
 			$form.on('mouseup keyup input', function() {
-				belatedValidate($form);
+				belatedValidate();
 			});
 			
 		});
