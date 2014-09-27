@@ -2,7 +2,7 @@
 
 Another one js validator
  
-jQuery Validate Plugin v0.4
+jQuery Validate Plugin v0.5
 
 Copyright 2014 UNLIKE
 Released under the MIT license
